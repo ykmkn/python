@@ -42,33 +42,33 @@ def mutate(individual):
     return individual
 
 def apply_operation(operations, operation_probabilities, generation, evaluated_values, next_generation):
+    """ This function applies an operation to the generation
+    """
     selected_operation=select_with_probability(operations, operation_probabilities)
     print("Selected operation: ",selected_operation)
 
     if selected_operation=="SELECTION":
-        # select an individual from the generation and add it to the next generation
         add_individual_to_generation(next_generation, select_with_probability(generation, evaluated_values))
 
     elif selected_operation=="CROSSOVER":
-        # select two individuals from the generation
         individual1 = select_with_probability(generation, evaluated_values)
         individual2 = select_with_probability(generation, evaluated_values)
-        # select a random index
+
         index = random.randint(0, len(individual1)-1)
         # create a new individual by combining the two individuals
         new_individual = individual1[:index] + individual2[index:]
-        # add the new individual to the next generation
         add_individual_to_generation(next_generation, new_individual)
 
-    else:
-        # select an individual from the generation
+    else: # selected_operation=="MUTATION"
         individual = select_with_probability(generation, evaluated_values)
         # mutate the individual
         mutated_individual = mutate(individual)
-        # add the mutated individual to the next generation
         add_individual_to_generation(next_generation, mutated_individual)
 
 def create_next_generation(generation, operations, operation_probabilities):
+    """ This function creates the next generation from the current generation
+    """
+
     # create a next generation from the current generation
     next_generation = []
     for i in range(len(generation)):
@@ -77,21 +77,18 @@ def create_next_generation(generation, operations, operation_probabilities):
     return next_generation
 
 def genetic_algorithm(generation, num_of_generation, operations, operation_probabilities):
-    # list of fitness scores
-    fitness_scores = []
+    """ This function runs the genetic algorithm
+    """
 
-    # add the fitness score of the initial generation to the list of fitness scores
+    fitness_scores = []
     fitness_scores.append(max(evaluate_generation(generation)))
 
     # create a next generation from the current generation
     for i in range(num_of_generation):
-        # print current generation
         print_generation(generation)
 
         # create a next generation from the current generation
         generation=create_next_generation(generation, operations, operation_probabilities)
-
-        # add the fitness score of the current generation to the list of fitness scores
         fitness_scores.append(max(evaluate_generation(generation)))
 
     # print final generation
@@ -102,5 +99,4 @@ def genetic_algorithm(generation, num_of_generation, operations, operation_proba
     print("Strongest individual: ")
     print_individual(strongest_individual)
 
-    # return the list of fitness scores
     return fitness_scores

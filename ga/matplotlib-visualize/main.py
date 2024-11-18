@@ -10,5 +10,8 @@ operations =["SELECTION","CROSSOVER","MUTATION"]
 # probabilities of the operations
 operation_probabilities = [0.4, 0.5, 0.1]
 
+# run the genetic algorithm
 fitness_scores = genetic_algorithm(generation, num_of_generation, operations, operation_probabilities)
+
+# visualize the fitness evolution over generations
 visualize_generation(fitness_scores)
