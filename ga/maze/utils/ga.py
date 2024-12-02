@@ -1,23 +1,22 @@
 import random
-from utils.maze import get_start_pos, get_goal_pos
+from utils.maze import get_start_pos, get_goal_pos, get_hint
 from utils.common import *
 from utils.player import move_player
 
 # list of operations
 operations =["SELECTION","CROSSOVER","MUTATION"]
 # probabilities of the operations
-operation_probabilities = [0.3, 0.5, 0.2]
+operation_probabilities = [0.1, 0.5, 0.4]
 
 def evaluate(individual):
     """ This function evaluates the sum of the elements in the list numb_list
     """
-    evaluated_value = 0
+    evaluated_value = 0.1
     pos = get_start_pos()
     goal_pos = get_goal_pos()
     for i in range(len(individual)):
         move_player(pos,individual[i])
-
-        temp_value = 100000/((goal_pos[0] - pos[0] + goal_pos[1] - pos[1])*10+10.1)
+        temp_value = get_hint(pos)
         if pos == get_goal_pos():
             temp_value += 1000
         evaluated_value = max(evaluated_value, temp_value)

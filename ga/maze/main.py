@@ -19,6 +19,9 @@ generation_count = 0
 
 # メインループ
 running = True
+
+maze.create_hint_to_goal()
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
